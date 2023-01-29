@@ -1,5 +1,7 @@
 package com.example.greenbay.exceptions;
 
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,7 +21,7 @@ public class GlobalErrorAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleMethodArgNotValid(MethodArgumentNotValidException exception, HttpServletRequest request) {
+    public Map<String, String> handleMethodArgNotValid(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
                     String fieldName = ((FieldError) error).getField();
@@ -29,4 +31,5 @@ public class GlobalErrorAdvice {
         );
         return errors;
     }
+
 }

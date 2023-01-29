@@ -3,10 +3,11 @@ package com.example.greenbay.services;
 import com.example.greenbay.dtos.RegistrationDTO;
 import com.example.greenbay.models.User;
 import com.example.greenbay.repositories.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     final
     UserRepository userRepository;
@@ -17,7 +18,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public RegistrationDTO save(RegistrationDTO registrationDTO) {
-        User user = new User(registrationDTO.getUsername(), registrationDTO.getPassword());
+        User user = new User(registrationDTO.getUsername(),
+                new BCryptPasswordEncoder().encode(registrationDTO.getPassword()));
         userRepository.save(user);
         return registrationDTO;
     }
