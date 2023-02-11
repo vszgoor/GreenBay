@@ -26,52 +26,58 @@ import javax.validation.Valid;
 @RestController
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-    private final MyUserDetailsService userDetailsService;
+  private final MyUserDetailsService userDetailsService;
 
-    private final JwtUtil jwtUtil;
+  private final JwtUtil jwtUtil;
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, MyUserDetailsService userDetailsService, JwtUtil jwtUtil, UserService userService) {
-        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
-        this.userService = userService;
+  @Autowired
+  public AuthenticationController(AuthenticationManager authenticationManager,
+                                  MyUserDetailsService userDetailsService, JwtUtil jwtUtil,
+                                  UserService userService) {
+    this.authenticationManager = authenticationManager;
+    this.userDetailsService = userDetailsService;
+    this.jwtUtil = jwtUtil;
+    this.userService = userService;
+  }
+
+
+  @GetMapping("/hello")
+  public String hello() {
+    return "Hello World";
+  }
+
+  @PostMapping("/registration")
+  public ResponseEntity registration(@Valid @RequestBody RegistrationDTO registrationDTO) {
+    return ResponseEntity.status(201).body(userService.save(registrationDTO));
+
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity createAuthenticationToken(
+      @Valid @RequestBody AuthenticationRequest authenticationRequest)
+      throws UsernameNotFoundException, BadCredentialsException {
+
+    try {
+      Authentication authentication = authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(
+              authenticationRequest.getUsername(),
+              authenticationRequest.getPassword())
+      );
+    } catch (UsernameNotFoundException e) {
+      return ResponseEntity.status(401).body(new SimpleErrorDTO(
+          "Username '" + authenticationRequest.getUsername() + "' is not found"));
+    } catch (BadCredentialsException e) {
+      return ResponseEntity.status(401).body(new SimpleErrorDTO("Incorrect password"));
     }
 
+    final MyUserDetails userDetails =
+        (MyUserDetails) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    final String jwt = jwtUtil.generateToken(userDetails);
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello World";
-    }
-
-    @PostMapping("/registration")
-    public ResponseEntity registration(@Valid @RequestBody RegistrationDTO registrationDTO) {
-        return ResponseEntity.status(201).body(userService.save(registrationDTO));
-
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity createAuthenticationToken(@Valid @RequestBody AuthenticationRequest authenticationRequest) throws UsernameNotFoundException, BadCredentialsException {
-
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            authenticationRequest.getUsername(),
-                            authenticationRequest.getPassword())
-            );
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(401).body(new SimpleErrorDTO("Username '" + authenticationRequest.getUsername() + "' is not found"));
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(401).body(new SimpleErrorDTO("Incorrect password"));
-        }
-
-        final MyUserDetails userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
-    }
+    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+  }
 }

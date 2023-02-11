@@ -5,6 +5,6 @@ import com.example.greenbay.dtos.RegistrationDTO;
 
 public interface UserService {
 
-    public RegistrationDTO save (RegistrationDTO registrationDTO);
+  public RegistrationDTO save(RegistrationDTO registrationDTO);
 
 }

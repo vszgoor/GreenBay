@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    final
-    UserRepository userRepository;
+  final
+  UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  public UserServiceImpl(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    @Override
-    public RegistrationDTO save(RegistrationDTO registrationDTO) {
-        User user = new User(registrationDTO.getUsername(),
-                new BCryptPasswordEncoder().encode(registrationDTO.getPassword()));
-        userRepository.save(user);
-        return registrationDTO;
-    }
+  @Override
+  public RegistrationDTO save(RegistrationDTO registrationDTO) {
+    User user = new User(registrationDTO.getUsername(),
+        new BCryptPasswordEncoder().encode(registrationDTO.getPassword()));
+    userRepository.save(user);
+    return registrationDTO;
+  }
 }

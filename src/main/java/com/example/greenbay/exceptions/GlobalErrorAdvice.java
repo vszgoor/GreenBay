@@ -19,17 +19,17 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalErrorAdvice {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleMethodArgNotValid(MethodArgumentNotValidException exception) {
-        Map<String, String> errors = new HashMap<>();
-        exception.getBindingResult().getAllErrors().forEach((error) -> {
-                    String fieldName = ((FieldError) error).getField();
-                    String errorMessage = error.getDefaultMessage();
-                    errors.put(fieldName, errorMessage);
-                }
-        );
-        return errors;
-    }
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public Map<String, String> handleMethodArgNotValid(MethodArgumentNotValidException exception) {
+    Map<String, String> errors = new HashMap<>();
+    exception.getBindingResult().getAllErrors().forEach((error) -> {
+          String fieldName = ((FieldError) error).getField();
+          String errorMessage = error.getDefaultMessage();
+          errors.put(fieldName, errorMessage);
+        }
+    );
+    return errors;
+  }
 
 }

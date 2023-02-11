@@ -8,72 +8,83 @@ import javax.validation.constraints.Positive;
 
 public class CreateItemDTO {
 
-    @NotBlank
-    String name;
+  Long id;
 
-    @NotBlank
-    String description;
+  @NotBlank
+  String name;
 
-    @NotBlank
-    @URL
-    String photoURL;
+  @NotBlank
+  String description;
 
-    @NotNull
-    @Positive
-    Double startingPrice;
+  @NotBlank
+  @URL
+  String photoURL;
 
-    @NotNull
-    @Positive
-    Double purchasePrice;
+  @NotNull
+  @Positive
+  Double startingPrice;
 
-    public CreateItemDTO() {
-    }
+  @NotNull
+  @Positive
+  Double purchasePrice;
 
-    public CreateItemDTO(String name, String description, String photoURL, Double startingPrice, Double purchasePrice) {
-        this.name = name;
-        this.description = description;
-        this.photoURL = photoURL;
-        this.startingPrice = startingPrice;
-        this.purchasePrice = purchasePrice;
-    }
+  public CreateItemDTO() {
+  }
 
-    public String getName() {
-        return name;
-    }
+  public CreateItemDTO(String name, String description, String photoURL, Double startingPrice,
+                       Double purchasePrice) {
+    this.name = name;
+    this.description = description;
+    this.photoURL = photoURL;
+    this.startingPrice = startingPrice;
+    this.purchasePrice = purchasePrice;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getPhotoURL() {
-        return photoURL;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
-    }
+  public String getPhotoURL() {
+    return photoURL;
+  }
 
-    public Double getStartingPrice() {
-        return startingPrice;
-    }
+  public void setPhotoURL(String photoURL) {
+    this.photoURL = photoURL;
+  }
 
-    public void setStartingPrice(Double startingPrice) {
-        this.startingPrice = startingPrice;
-    }
+  public Double getStartingPrice() {
+    return startingPrice;
+  }
 
-    public Double getPurchasePrice() {
-        return purchasePrice;
-    }
+  public void setStartingPrice(Double startingPrice) {
+    this.startingPrice = startingPrice;
+  }
 
-    public void setPurchasePrice(Double purchasePrice) {
-        this.purchasePrice = purchasePrice;
-    }
+  public Double getPurchasePrice() {
+    return purchasePrice;
+  }
+
+  public void setPurchasePrice(Double purchasePrice) {
+    this.purchasePrice = purchasePrice;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 }
