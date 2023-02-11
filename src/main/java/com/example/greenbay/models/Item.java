@@ -1,15 +1,10 @@
 package com.example.greenbay.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 public class Item {
@@ -32,8 +27,7 @@ public class Item {
 
   Boolean sellable;
 
-  @JsonIgnore
-  @OneToMany(cascade = CascadeType.PERSIST)
+  @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "item")
   List<Bid> bids;
 
   @ManyToOne(cascade = CascadeType.PERSIST)
@@ -55,12 +49,12 @@ public class Item {
     this.seller = seller;
   }
 
-//    public Optional<Bid> getLastBid(){
-//        if(bids.isEmpty()){
-//            return Optional.empty();
-//        }
-//        return Optional.of((bids.get(bids.size() - 1)));
-//    }
+    public Double getLastBidAmount(){
+        if(bids.isEmpty()){
+            return null;
+        }
+        return bids.get(bids.size() - 1).getAmount();
+    }
 
   public void addBid(Bid bid) {
     bids.add(bid);

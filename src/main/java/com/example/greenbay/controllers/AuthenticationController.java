@@ -32,29 +32,22 @@ public class AuthenticationController {
 
   private final JwtUtil jwtUtil;
 
-  private final UserService userService;
+//  private final UserService userService;
 
   @Autowired
   public AuthenticationController(AuthenticationManager authenticationManager,
-                                  MyUserDetailsService userDetailsService, JwtUtil jwtUtil,
-                                  UserService userService) {
+                                  MyUserDetailsService userDetailsService, JwtUtil jwtUtil) {
     this.authenticationManager = authenticationManager;
     this.userDetailsService = userDetailsService;
     this.jwtUtil = jwtUtil;
-    this.userService = userService;
-  }
-
-
-  @GetMapping("/hello")
-  public String hello() {
-    return "Hello World";
-  }
-
-  @PostMapping("/registration")
-  public ResponseEntity registration(@Valid @RequestBody RegistrationDTO registrationDTO) {
-    return ResponseEntity.status(201).body(userService.save(registrationDTO));
 
   }
+
+//  @PostMapping("/registration")
+//  public ResponseEntity registration(@Valid @RequestBody RegistrationDTO registrationDTO) {
+//    return ResponseEntity.status(201).body(userService.save(registrationDTO));
+//
+//  }
 
   @PostMapping("/login")
   public ResponseEntity createAuthenticationToken(

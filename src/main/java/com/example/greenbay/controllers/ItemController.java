@@ -53,5 +53,15 @@ public class ItemController {
     return ResponseEntity.ok(sellableItemDetailedDTO);
   }
 
+  @PostMapping("/bidding")
+  public ResponseEntity bidding(@RequestParam Long itemID,
+                                @RequestParam Double bidAmount,
+                                Principal principal){
+    String bidderName = principal.getName();
+    SellableItemDetailedDTO sellableItemDetailedDTO = itemService.bidding(
+        itemID, bidAmount, bidderName);
+    return ResponseEntity.status(201).body(sellableItemDetailedDTO);
+  }
+
 
 }

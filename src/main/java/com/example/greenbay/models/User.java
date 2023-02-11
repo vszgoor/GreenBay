@@ -20,16 +20,16 @@ public class User {
 
   Double balance;
 
-  @JsonIgnore
-  @OneToMany(cascade = CascadeType.PERSIST)
+
+  @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "seller")
   List<Item> itemsToSell;
 
-  @JsonIgnore
-  @OneToMany(cascade = CascadeType.PERSIST)
+
+  @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "bidder")
   List<Bid> bids;
 
-  @JsonIgnore
-  @OneToMany(cascade = CascadeType.PERSIST)
+
+  @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "buyer")
   List<Item> itemsBought;
 
   public void addBid(Bid bid) {
@@ -45,16 +45,16 @@ public class User {
   }
 
   public User() {
-    balance = 0.00;
     itemsToSell = new ArrayList<>();
     bids = new ArrayList<>();
     itemsBought = new ArrayList<>();
   }
 
-  public User(String username, String password) {
+  public User(String username, String password, Double balance) {
     this();
     this.username = username;
     this.password = password;
+    this.balance = balance;
   }
 
   public Long getId() {

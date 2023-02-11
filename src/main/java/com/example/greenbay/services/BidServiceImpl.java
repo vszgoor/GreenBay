@@ -15,88 +15,105 @@
 //@Service
 //public class BidServiceImpl implements BidService {
 //
-//    private final BidRepository bidRepository;
+//  private final BidRepository bidRepository;
 //
-//    private final ItemRepository itemRepository;
+//  private final ItemRepository itemRepository;
 //
-//    private final UserRepository userRepository;
+//  private final UserRepository userRepository;
 //
-//    private ModelMapper modelMapper;
+//  private ModelMapper modelMapper;
 //
-//    public BidServiceImpl(BidRepository bidRepository, ItemRepository itemRepository, UserRepository userRepository) {
-//        this.bidRepository = bidRepository;
-//        this.itemRepository = itemRepository;
-//        this.userRepository = userRepository;
-//        this.modelMapper = new ModelMapper();
-//    }
+//  public BidServiceImpl(BidRepository bidRepository, ItemRepository itemRepository,
+//                        UserRepository userRepository) {
+//    this.bidRepository = bidRepository;
+//    this.itemRepository = itemRepository;
+//    this.userRepository = userRepository;
+//    this.modelMapper = new ModelMapper();
+//  }
 //
-//    @Override
-//    public SellableItemDetailedDTO bidding(
-//        BidDTO bidDetailsForSellableItemDTO, String username) {
+//  @Override
+//  public SellableItemDetailedDTO bidding(Long itemID, Double bidAmount, String bidderName) {
+//    User bidder = userRepository.findByUsername(bidderName).orElseThrow();
 //
-//        User bidder = userRepository.findByUsername(username).orElseThrow();
+//    biddingValidation(itemID, bidAmount, bidder);
 //
-//        biddingValidation(bidDetailsForSellableItemDTO, bidder);
+//    Item item = itemRepository.findById(itemID).get();
 //
-//        Item item = itemRepository.findById(bidDetailsForSellableItemDTO.getItemID()).get();
+//    if(bidAmount < item.getPurchasePrice()) {
 //
-//        if (bidDetailsForSellableItemDTO.getAmount() < item.getPurchasePrice()) {
-//
-//            Bid bid = new Bid(bidDetailsForSellableItemDTO.getAmount(), bidder, item);
-//            bidder.addBid(bid);
-//            item.addBid(bid);
-//
-//            bidRepository.save(bid);
-//            itemRepository.save(item);
-//            userRepository.save(bidder);
-//
-//            SellableItemDetailedDTO sellableItemDetailedDTO = new SellableItemDetailedDTO();
-//            modelMapper.map(item, sellableItemDetailedDTO);
-//            return sellableItemDetailedDTO;
-//        }
-//
-//        Bid bid = new Bid(bidDetailsForSellableItemDTO.getAmount(), bidder, item);
-//        bidder.addBid(bid);
-//        item.addBid(bid);
-//        item.setBuyer(bidder);
-//        bidder.addItemBought(item);
-//        bidRepository.save(bid);
-//        itemRepository.save(item);
-//        userRepository.save(bidder);
-//        SellableItemDetailedDTO sellableItemDetailedDTO = new SellableItemDetailedDTO();
-//        modelMapper.map(item, sellableItemDetailedDTO);
-//
-//        return sellableItemDetailedDTO;
 //    }
 //
 //
-//    private void biddingValidation(BidDTO bidDetailsForSellableItemDTO, User bidder) {
-//        Long itemID = bidDetailsForSellableItemDTO.getItemID();
+//  }
+////    @Override
+////    public SellableItemDetailedDTO bidding(
+////        BidDTO bidDetailsForSellableItemDTO, String username) {
+////
+////
+////
+////
+////
+////
+////
+////        if (bidDetailsForSellableItemDTO.getAmount() < item.getPurchasePrice()) {
+////
+////            Bid bid = new Bid(bidDetailsForSellableItemDTO.getAmount(), bidder, item);
+////            bidder.addBid(bid);
+////            item.addBid(bid);
+////
+////            bidRepository.save(bid);
+////            itemRepository.save(item);
+////            userRepository.save(bidder);
+////
+////            SellableItemDetailedDTO sellableItemDetailedDTO = new SellableItemDetailedDTO();
+////            modelMapper.map(item, sellableItemDetailedDTO);
+////            return sellableItemDetailedDTO;
+////        }
+////
+////        Bid bid = new Bid(bidDetailsForSellableItemDTO.getAmount(), bidder, item);
+////        bidder.addBid(bid);
+////        item.addBid(bid);
+////        item.setBuyer(bidder);
+////        bidder.addItemBought(item);
+////        bidRepository.save(bid);
+////        itemRepository.save(item);
+////        userRepository.save(bidder);
+////        SellableItemDetailedDTO sellableItemDetailedDTO = new SellableItemDetailedDTO();
+////        modelMapper.map(item, sellableItemDetailedDTO);
+////
+////        return sellableItemDetailedDTO;
+////    }
 //
-//        if (itemRepository.findById(itemID).isEmpty()) {
-//            throw new GreenBayException("Item is not found");
-//        }
 //
-//        Item item = itemRepository.findById(itemID).get();
+//  private void biddingValidation(Long itemID, Double bidAmount, User bidder) {
 //
-//        if (!item.getSellable()) {
-//            throw new GreenBayException("Item can't be bought");
-//        }
-//
-//        if(item.getSeller() == bidder) {
-//            throw new GreenBayException("The seller can't buy their own item");
-//        }
-//
-//        if (bidder.getBalance() < bidDetailsForSellableItemDTO.getAmount()) {
-//            throw new GreenBayException("There's not enough money on the user's account");
-//        }
-//
-//        if (item.getBids().isEmpty() && bidDetailsForSellableItemDTO.getAmount() < item.getStartingPrice()) {
-//            throw new GreenBayException("The bid is too low");
-//        }
-//
-//        if (!item.getBids().isEmpty() && bidDetailsForSellableItemDTO.getAmount() < item.getBids().get(item.getBids().size() - 1).getAmount()) {
-//            throw new GreenBayException("The bid is too low");
-//        }
+//    if (itemRepository.findById(itemID).isEmpty()) {
+//      throw new GreenBayException("Item is not found");
 //    }
+//
+//    Item item = itemRepository.findById(itemID).get();
+//
+//    if (!item.getSellable()) {
+//      throw new GreenBayException("Item can't be bought");
+//    }
+//
+//    if (item.getSeller() == bidder) {
+//      throw new GreenBayException("The seller can't buy their own item");
+//    }
+//
+//    if (bidder.getBalance() < bidAmount) {
+//      throw new GreenBayException("There's not enough money on the user's account");
+//    }
+//
+//    if (bidAmount < item.getStartingPrice()) {
+//      throw new GreenBayException("The bid is too low");
+//    }
+//
+//    if (item.getLastBid() != null &&
+//        bidAmount <= item.getLastBid().getAmount()) {
+//      throw new GreenBayException("The bid is too low");
+//    }
+//  }
+//
+//
 //}

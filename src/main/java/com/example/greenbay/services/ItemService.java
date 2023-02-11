@@ -11,4 +11,6 @@ public interface ItemService {
   List<SellableItemShortDTO> listItems(Integer pageNumber);
 
   SellableItemDetailedDTO getItem(Long itemID);
+
+  SellableItemDetailedDTO bidding(Long itemID, Double bidAmount, String bidderName);
 }

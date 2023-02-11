@@ -4,5 +4,6 @@ import com.example.greenbay.dtos.BidDTO;
 import com.example.greenbay.dtos.SellableItemDetailedDTO;
 
 public interface BidService {
-  SellableItemDetailedDTO bidding(BidDTO bidDetailsForSellableItemDTO, String username);
+
+  SellableItemDetailedDTO bidding(Long itemID, Double bidAmount, String bidderName);
 }

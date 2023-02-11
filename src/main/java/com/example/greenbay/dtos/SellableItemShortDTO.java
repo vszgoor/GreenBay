@@ -5,15 +5,15 @@ public class SellableItemShortDTO {
 
   String photoURL;
 
-  Double lastBid;
+  Double lastBidAmount;
 
   public SellableItemShortDTO() {
   }
 
-  public SellableItemShortDTO(String name, String photoURL, Double lastBid) {
+  public SellableItemShortDTO(String name, String photoURL, Double lastBidAmount) {
     this.name = name;
     this.photoURL = photoURL;
-    this.lastBid = lastBid;
+    this.lastBidAmount = lastBidAmount;
   }
 
   public String getName() {
@@ -32,11 +32,11 @@ public class SellableItemShortDTO {
     this.photoURL = photoURL;
   }
 
-  public Double getLastBid() {
-    return lastBid;
+  public Double getLastBidAmount() {
+    return lastBidAmount;
   }
 
-  public void setLastBid(Double lastBid) {
-    this.lastBid = lastBid;
+  public void setLastBid(Double lastBidAmount) {
+    this.lastBidAmount = lastBidAmount;
   }
 }
