@@ -1,18 +1,12 @@
 package com.example.greenbay.exceptions;
 
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +24,12 @@ public class GlobalErrorAdvice {
         }
     );
     return errors;
+  }
+
+  @ExceptionHandler(GreenBayException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public SimpleErrorDTO handleGreenBayExceptions(GreenBayException exception){
+    return new SimpleErrorDTO(exception.getMessage());
   }
 
 }

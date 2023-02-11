@@ -17,11 +17,12 @@ public class InitConfig implements CommandLineRunner {
     this.userRepository = userRepository;
   }
 
-
   @Override
   public void run(String... args) throws Exception {
-    userRepository.save(new User("user1",new BCryptPasswordEncoder().encode("Pass123"),1000.0));
-    userRepository.save(new User("user2",new BCryptPasswordEncoder().encode("Pass123"),1000.0));
-    userRepository.save(new User("user3",new BCryptPasswordEncoder().encode("Pass123"),1000.0));
-  }
+    if(userRepository.count() == 0) {
+      userRepository.save(new User("user1",new BCryptPasswordEncoder().encode("Pass123"),1000.0));
+      userRepository.save(new User("user2",new BCryptPasswordEncoder().encode("Pass123"),1000.0));
+      userRepository.save(new User("user3",new BCryptPasswordEncoder().encode("Pass123"),1000.0));
+    }
+   }
 }

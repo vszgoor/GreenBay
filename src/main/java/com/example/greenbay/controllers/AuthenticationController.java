@@ -1,25 +1,18 @@
 package com.example.greenbay.controllers;
 
-import com.example.greenbay.dtos.RegistrationDTO;
 import com.example.greenbay.exceptions.SimpleErrorDTO;
 import com.example.greenbay.security.*;
-import com.example.greenbay.services.UserService;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
@@ -32,8 +25,6 @@ public class AuthenticationController {
 
   private final JwtUtil jwtUtil;
 
-//  private final UserService userService;
-
   @Autowired
   public AuthenticationController(AuthenticationManager authenticationManager,
                                   MyUserDetailsService userDetailsService, JwtUtil jwtUtil) {
@@ -42,12 +33,6 @@ public class AuthenticationController {
     this.jwtUtil = jwtUtil;
 
   }
-
-//  @PostMapping("/registration")
-//  public ResponseEntity registration(@Valid @RequestBody RegistrationDTO registrationDTO) {
-//    return ResponseEntity.status(201).body(userService.save(registrationDTO));
-//
-//  }
 
   @PostMapping("/login")
   public ResponseEntity createAuthenticationToken(

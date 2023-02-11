@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
 
-  @Query(value = "SELECT i FROM Item i")
+  @Query(value = "SELECT i FROM Item i WHERE i.sellable = true")
   Page<Item> findSellableItemsByPage(Pageable pageable);
 
 }

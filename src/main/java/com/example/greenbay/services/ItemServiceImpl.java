@@ -60,7 +60,8 @@ public class ItemServiceImpl implements ItemService {
   public List<SellableItemShortDTO> listItems(Integer pageNumber) {
     Page<Item> listOfItems;
     if (pageNumber == null) {
-      listOfItems = itemRepository.findSellableItemsByPage(PageRequest.of(0, numberOfItemsPerPage));
+      listOfItems = itemRepository.findSellableItemsByPage(
+          PageRequest.of(0, numberOfItemsPerPage));
     } else {
       listOfItems = itemRepository.findSellableItemsByPage(
           PageRequest.of(pageNumber - 1, numberOfItemsPerPage));
@@ -79,7 +80,7 @@ public class ItemServiceImpl implements ItemService {
   @Override
   public SellableItemDetailedDTO getItem(Long itemID) {
     var item = itemRepository.findById(itemID)
-        .orElseThrow(() -> new GreenBayException("Item with ID " + itemID + "is not found"));
+        .orElseThrow(() -> new GreenBayException("Item with ID " + itemID + " is not found"));
 
     return itemToSellableItemDetailedDTO(item);
   }
@@ -95,7 +96,7 @@ public class ItemServiceImpl implements ItemService {
 
     placeBid(item, bidAmount, bidder);
 
-    if(bidAmount >= item.getPurchasePrice()) {
+    if (bidAmount >= item.getPurchasePrice()) {
       buyItem(item, bidAmount, bidder);
     }
 
@@ -141,7 +142,7 @@ public class ItemServiceImpl implements ItemService {
     bidRepository.save(bid);
   }
 
-  private SellableItemDetailedDTO itemToSellableItemDetailedDTO(Item item){
+  private SellableItemDetailedDTO itemToSellableItemDetailedDTO(Item item) {
     SellableItemDetailedDTO itemDTO = new SellableItemDetailedDTO();
     modelMapper.map(item, itemDTO);
     itemDTO.setSellerName(item.getSeller().getUsername());
