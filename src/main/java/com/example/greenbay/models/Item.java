@@ -1,12 +1,11 @@
 package com.example.greenbay.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "items")
 public class Item {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

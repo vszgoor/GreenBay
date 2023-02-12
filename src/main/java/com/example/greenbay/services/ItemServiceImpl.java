@@ -162,6 +162,7 @@ public class ItemServiceImpl implements ItemService {
     item.setBuyer(bidder);
     item.setSellable(false);
     bidder.setBalance(bidder.getBalance() - bidAmount);
+    bidder.addItemBought(item);
     itemRepository.save(item);
   }
 

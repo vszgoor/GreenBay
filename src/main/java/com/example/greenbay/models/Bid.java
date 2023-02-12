@@ -3,6 +3,7 @@ package com.example.greenbay.models;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "bids")
 public class Bid {
 
   @Id
