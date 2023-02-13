@@ -2,7 +2,6 @@ package com.example.greenbay.configurations;
 
 import com.example.greenbay.models.User;
 import com.example.greenbay.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

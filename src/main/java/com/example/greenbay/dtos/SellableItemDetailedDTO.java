@@ -1,8 +1,5 @@
 package com.example.greenbay.dtos;
 
-import com.example.greenbay.models.Bid;
-import com.example.greenbay.models.User;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
